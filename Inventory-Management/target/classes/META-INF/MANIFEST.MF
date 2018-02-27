@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: Inventory-Management
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: celin
+Implementation-Vendor-Id: Inventory-Management
+Build-Jdk: 1.8.0_161
+Implementation-URL: http://projects.spring.io/spring-boot/Inventory-Ma
+ nagement/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
