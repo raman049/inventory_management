@@ -3,13 +3,19 @@ package com.cubics.im.service.product;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cubics.im.entity.product.ProductEntity;
+import com.cubics.im.service.vendor.VendorMapper;
+import com.cubics.im.service.vendor.VendorService;
 
 @Component
 public class ProductMapper {
-
+	@Autowired
+	VendorMapper mapper;
+	@Autowired
+	VendorService vs;
 	public ProductEntity mapToProductEntity(final ProductVO vo) {
 		return mapToProductEntity(new ProductEntity(), vo);
 
@@ -23,10 +29,14 @@ public class ProductMapper {
 		entity.setModifyDate(vo.getModifyDate());
 		entity.setOrderQuantity(vo.getOrderQuantity());
 		entity.setPk(vo.getId());
-		entity.setPrimaryVendor(vo.getPrimaryVendor());
+		//entity.setPrimaryVendor(mapper.mapToVendorEntity(vo.getPrimaryVenderVO()));
+		entity.setPrimaryVendor(mapper.mapToVendorEntity(vs.findById(vo.getPrimaryVendor())));
+		//entity.setSecondaryVendor(mapper.mapToVendorEntity(vo.getSecondaryVendorVO()));
+		entity.setSecondaryVendor(mapper.mapToVendorEntity(vs.findById(vo.getSecondaryVendor())));
+		//entity.setPrimaryVendor(mapToVendorEntity(vo.getPrimaryVO()));
 		entity.setProductName(vo.getProductName());
 		entity.setStatus(vo.getStatus());
-		entity.setSecondaryVendor(vo.getSecondaryVendor());
+		//entity.setSecondaryVendor(vo.getSecondaryVendor());
 		entity.setThresholdQuantity(vo.getThresholdQuantity());
 		return entity;
 
@@ -41,10 +51,14 @@ public class ProductMapper {
 		vo.setModifyDate(entity.getModifyDate());
 		vo.setOrderQuantity(entity.getOrderQuantity());
 		vo.setId(entity.getPk());
-		vo.setPrimaryVendor(entity.getPrimaryVendor());
+	//	vo.setPrimaryVenderVO(mapper.mapToVendorVO(entity.getPrimaryVendor()));
+		vo.setPrimaryVendor(mapper.mapToVendorVO(entity.getPrimaryVendor()).getPk());
+	//	vo.setSecondaryVendorVO(mapper.mapToVendorVO(entity.getSecondaryVendor()));
+		vo.setSecondaryVendor(mapper.mapToVendorVO(entity.getSecondaryVendor()).getPk());
+	//	vo.setPrimaryVendor(entity.getPrimaryVendor());
+	//	vo.setSecondaryVendor(entity.getSecondaryVendor());
 		vo.setProductName(entity.getProductName());
 		vo.setStatus(entity.getStatus());
-		vo.setSecondaryVendor(entity.getSecondaryVendor());
 		vo.setThresholdQuantity(entity.getThresholdQuantity());
 		return vo;
 	}
@@ -55,7 +69,7 @@ public class ProductMapper {
 			result.add(mapToProductVO(entity));
 		}
 		return result;
- 
 	}
+	
 
 }

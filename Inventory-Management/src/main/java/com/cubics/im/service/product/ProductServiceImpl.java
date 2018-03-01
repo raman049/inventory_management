@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cubics.im.entity.product.ProductEntity;
 import com.cubics.im.entity.product.ProductStatus;
 import com.cubics.im.entity.vendor.QueryConstant;
+import com.cubics.im.entity.vendor.VendorEntity;
 import com.cubics.im.exception.DataNotFound;
 import com.cubics.im.exception.DuplicateDataError;
 import com.cubics.im.exception.InvalidDataError;
@@ -36,8 +37,10 @@ public class ProductServiceImpl implements ProductService {
 
 			if (isDuplicate(vo.getCode(), vo.getProductName())) {
 				throw new DuplicateDataError("Product already exist.");
-			} else {	
+			} else {
 				ProductEntity entity = mapper.mapToProductEntity(vo);
+				entity.setPrimaryVendor(em.find(VendorEntity.class, vo.getPrimaryVendor()));
+				entity.setSecondaryVendor(em.find(VendorEntity.class, vo.getSecondaryVendor()));
 				em.persist(entity);
 				vo.setId(entity.getPk());
 				return vo;
@@ -53,6 +56,10 @@ public class ProductServiceImpl implements ProductService {
 			if (isDuplicate(vo.getCode(), vo.getProductName())) {
 				ProductEntity entity = em.find(ProductEntity.class, vo.getId());
 				entity = mapper.mapToProductEntity(entity, vo);
+				entity.setPrimaryVendor(em.find(VendorEntity.class, vo.getPrimaryVendor()));
+				entity.setSecondaryVendor(em.find(VendorEntity.class, vo.getSecondaryVendor()));
+				
+
 				em.persist(entity);
 			} else {
 				throw new DuplicateDataError("Product already exist.");
@@ -88,12 +95,20 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public ProductVO findByID(Long id) {
+		return mapper.mapToProductVO(em.find(ProductEntity.class, id));
+	}
+
+	@Override
 	public ProductVO findByCode(String code) {
 		TypedQuery<ProductEntity> query = em.createNamedQuery(QueryConstant.PRODUCT_SEARCH_CODE, ProductEntity.class);
 		query.setParameter("code", code);
 		final List<ProductEntity> entities = query.getResultList();
 		if (!entities.isEmpty()) {
 			ProductEntity entity = entities.get(0);
+			// entity.getVendorEntity()
+			// entity.setPrimaryVendor(entity.getVendorEntity().getCity());
+
 			return mapper.mapToProductVO(entity);
 		} else {
 			throw new DataNotFound("data does not exist" + code);
