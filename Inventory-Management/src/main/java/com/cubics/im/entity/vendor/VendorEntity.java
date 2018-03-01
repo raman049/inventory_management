@@ -1,5 +1,6 @@
 package com.cubics.im.entity.vendor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,9 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -59,9 +57,9 @@ public class VendorEntity {
 	@Column(name = "EMAIL")
 	private String email;
 
-	//@ManyToOne(fetch = FetchType.LAZY) // ,cascade=CascadeType.ALL,mappedBy="vendorEntity")
-	//@JoinColumn(name = "VENDOR_FK")
-//	private ProductEntity productEntity = null;
+//	@ManyToOne
+//	@JoinColumn(name = "PRIMARY_VENDOR")
+//	private ProductEntity productEntity;
 //
 //	public ProductEntity getProductEntity() {
 //		return productEntity;
@@ -70,6 +68,20 @@ public class VendorEntity {
 //	public void setProductEntity(ProductEntity productEntity) {
 //		this.productEntity = productEntity;
 //	}
+
+	 @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="vendorEntity")
+	 private List<ProductEntity> productEntity = null;
+	
+	 public List<ProductEntity> getProductEntity() {
+	 if (this.productEntity==null) {
+	 this.productEntity=new ArrayList<ProductEntity>();
+	 }
+	 return productEntity;
+	 }
+	
+	 public void setProductEntity(List<ProductEntity> productEntity) {
+	 this.productEntity = productEntity;
+	 }
 
 	public Long getId() {
 		return id;

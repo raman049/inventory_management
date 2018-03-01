@@ -94,6 +94,9 @@ public class ProductServiceImpl implements ProductService {
 		final List<ProductEntity> entities = query.getResultList();
 		if (!entities.isEmpty()) {
 			ProductEntity entity = entities.get(0);
+			//entity.getVendorEntity()
+		 //  entity.setPrimaryVendor(entity.getVendorEntity().getCity());
+		   
 			return mapper.mapToProductVO(entity);
 		} else {
 			throw new DataNotFound("data does not exist" + code);

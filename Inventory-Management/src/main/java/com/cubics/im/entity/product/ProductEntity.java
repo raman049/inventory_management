@@ -1,15 +1,22 @@
 package com.cubics.im.entity.product;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -18,6 +25,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.cubics.im.entity.vendor.QueryConstant;
+import com.cubics.im.entity.vendor.VendorEntity;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -54,20 +62,46 @@ public class ProductEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFY_DATE")
 	private Date modifyDate;
-	@Column(name = "PRIMARY_VENDOR")
-	private String primaryVendor;
-	@Column(name = "SECONDARY_VENDOR")
-	private String secondaryVendor;
+	//@OneToMany(fetch=FetchType.LAZY)
+	//@JoinColumn(name = "PRIMARY_VENDOR")
+	//@Column(name="PRIMARY_VENDOR")
+	//private String primaryVendor;
+//	@Column(name = "SECONDARY_VENDOR")
+//	private String secondaryVendor;
 
-	//@OneToMany(targetEntity=VendorEntity.class, fetch=FetchType.LAZY,mappedBy="productEntity")
-//	 List<VendorEntity> vendorEntity = new ArrayList<VendorEntity>();
-//	public List<VendorEntity> getVendorEntity() {
-//		return vendorEntity;
-//	}
-//
-//	public void setVendorEntity(List<VendorEntity> vendorEntity) {
-//		this.vendorEntity = vendorEntity;
-//	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="PRIMARY_VENDOR")
+	private VendorEntity vendorEntity;
+
+	public VendorEntity getVendorEntity() {
+		return vendorEntity;
+	}
+
+	public void setVendorEntity(VendorEntity vendorEntity) {
+		this.vendorEntity = vendorEntity;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="SECONDARY_VENDOR")
+	private VendorEntity vendorEntity2;
+
+//	 @OneToMany(fetch=FetchType.LAZY,mappedBy="productEntity")
+//	List<VendorEntity> vendorEntity = new ArrayList<VendorEntity>();
+//	
+//	 public List<VendorEntity> getVendorEntity() {
+//	 return vendorEntity;
+//	 }
+//	
+//	 public void setVendorEntity(List<VendorEntity> vendorEntity) {
+//	 this.vendorEntity = vendorEntity;
+//	 }
+
+	public VendorEntity getVendorEntity2() {
+		return vendorEntity2;
+	}
+
+	public void setVendorEntity2(VendorEntity vendorEntity2) {
+		this.vendorEntity2 = vendorEntity2;
+	}
 
 	public long getPk() {
 		return pk;
@@ -149,29 +183,29 @@ public class ProductEntity {
 		this.modifyDate = modifyDate;
 	}
 
-	public String getPrimaryVendor() {
-		return primaryVendor;
-	}
+//	public String getPrimaryVendor() {
+//		return primaryVendor;
+//	}
+//
+//	public void setPrimaryVendor(String primaryVendor) {
+//		this.primaryVendor = primaryVendor;
+//	}
 
-	public void setPrimaryVendor(String primaryVendor) {
-		this.primaryVendor = primaryVendor;
-	}
-
-	public String getSecondaryVendor() {
-		return secondaryVendor;
-	}
-
-	public void setSecondaryVendor(String secondaryVendor) {
-		this.secondaryVendor = secondaryVendor;
-	}
+//	public String getSecondaryVendor() {
+//		return secondaryVendor;
+//	}
+//
+//	public void setSecondaryVendor(String secondaryVendor) {
+//		this.secondaryVendor = secondaryVendor;
+//	}
 
 	@Override
 	public String toString() {
 		return "ProductEntity [pk=" + pk + ", productName=" + productName + ", description=" + description + ", code="
 				+ code + ", currentQuantity=" + currentQuantity + ", orderQuantity=" + orderQuantity
 				+ ", threshodQuantity=" + thresholdQuantity + ", satatus=" + status + ", createdDate=" + createdDate
-				+ ", modifyDate=" + modifyDate + ", primaryVendor=" + primaryVendor + ", secondaryVendor="
-				+ secondaryVendor + "]";
+				+ ", modifyDate=" + modifyDate + ", primaryVendor="  + ", secondaryVendor="
+				+  "]";
 	}
 
 	@PrePersist
