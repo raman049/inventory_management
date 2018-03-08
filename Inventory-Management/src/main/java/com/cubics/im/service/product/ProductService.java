@@ -15,6 +15,7 @@ public interface ProductService {
 	ProductVO addProduct(final String code, final Long quantity);
 
 	ProductVO findByCode(final String code);
+	ProductVO findByID(final Long id);
 
 	List<ProductVO> searchActiveProduct();
 

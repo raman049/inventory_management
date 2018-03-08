@@ -27,6 +27,7 @@ public class VendorMapper {
 		entity.setStatus(vo.getStatus());
 		entity.setVendorCode(vo.getVendorCode());
 		entity.setZip(vo.getZip());
+		entity.setId(entity.getId());
 		return entity;
 
 	}

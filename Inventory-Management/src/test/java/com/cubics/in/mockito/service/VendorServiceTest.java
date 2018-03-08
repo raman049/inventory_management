@@ -1,63 +1,58 @@
 package com.cubics.in.mockito.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import org.hibernate.jpa.criteria.expression.SearchedCaseExpression.WhenClause;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javax.persistence.EntityManager;
-import javax.ws.rs.core.Response;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cubics.im.entity.vendor.VendorEntity;
-import com.cubics.im.mockito.test.VendorData;
-import com.cubics.im.resources.vendor.VendorResource;
-import com.cubics.im.service.vendor.VendorService;
+import com.cubics.im.mockito.test.GenerateData;
 import com.cubics.im.service.vendor.VendorServiceImpl;
 import com.cubics.im.service.vendor.VendorVO;
+import com.cubics.im.validator.Validator;
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 class VendorServiceTest {
 
 	private VendorEntity entity = null;
 	private VendorVO vo = null;
 
-	@Mock
-	private VendorServiceImpl mockserv =null;
 	@Spy
-	private VendorResource mockres;
-	
-	
+	private VendorServiceImpl mockvs = null;
+	@Mock
+	EntityManager em;// = mock(EntityManager.class);
+	@Mock
+	Validator vali;
+
 	@BeforeEach
 	void setUp() throws Exception {
-		entity = VendorData.createEntity();
-		vo = VendorData.createVO();
-	//	when(mockres.getVs()).thenReturn(mockserv);
-		
-		//when(impl.getVs()).thenReturn(mockserv);
+		entity = GenerateData.createEntity();
+		vo = GenerateData.createVO();
+		vali = new Validator();
+		MockitoAnnotations.initMocks(this);
+		when(mockvs.getEm()).thenReturn(em);
+	//	when(mockvs.getValidator()).thenReturn(vali);
 	}
 
 	@Test
 	public void createVendorTest() {
-
-	//when(mockPDao.createProduct(any(ProductEntity.class))).thenReturn(pentity);
-	//	ProductVO output = impl.saveProduct(pvo);
-		//assertNotNull(output);
-		//assertNotNull(output.getId());
-		assertEquals(1, 1);
-		//assertEquals(output.getDescription(), pvo.getDescription());
+		// when(mockvs.getEm().persist(VendorVO.class)).thenReturn(vo);
+		when(mockvs.createVendor(any(VendorVO.class))).thenReturn(vo);
+		VendorVO out = mockvs.createVendor(vo);
+		assertEquals(out.getAddress1(), vo.getAddress1());
 	}
-
 
 }

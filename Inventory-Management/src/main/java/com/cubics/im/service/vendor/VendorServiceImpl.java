@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,21 +24,35 @@ import com.cubics.im.validator.Validator;
 @Transactional
 public class VendorServiceImpl implements VendorService {
 
+//	private final static Logger logger = LoggerFactory.getLogger(VendorServiceImpl.class);
+
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired
 	private VendorMapper mapper;
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 	@Autowired
 	private Validator validator;
 
 	@Override
 	public VendorVO createVendor(VendorVO vo) {
+	//	logger.debug("Entering createVendor");
 		if (validator.validName(vo.getVendorName()) && validator.email(vo.getEmail())
 				&& validator.validCode(vo.getVendorCode())) {
+			//logger.debug("validation of name email");
 			if (isDuplicate(vo.getVendorCode(), vo.getVendorName())) {
+			//	logger.debug("validation of duplicate");
 				throw new DuplicateDataError("Duplicate data.");
 			} else {
 				VendorEntity entity = mapper.mapToVendorEntity(vo);
+				//logger.debug("persist entity");
 				em.persist(entity);
 				vo.setPk(entity.getId());
 				return vo;

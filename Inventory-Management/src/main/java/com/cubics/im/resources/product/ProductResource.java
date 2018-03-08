@@ -60,6 +60,12 @@ public class ProductResource {
 		ProductVO result = ps.findByCode(code);
 		return Response.ok().entity(result).build();
 	}
+	@GET
+	@Path("/id/{id}")
+	public Response findById(@PathParam("id") final Long id) {
+		ProductVO result = ps.findByID(id);
+		return Response.ok().entity(result).build();
+	}
 
 	@GET
 	 @Path("/active")

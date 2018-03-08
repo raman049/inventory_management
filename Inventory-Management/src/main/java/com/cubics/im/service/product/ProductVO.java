@@ -3,6 +3,7 @@ package com.cubics.im.service.product;
 import java.util.Date;
 
 import com.cubics.im.entity.product.ProductStatus;
+import com.cubics.im.service.vendor.VendorVO;
 
 public class ProductVO {
 
@@ -16,8 +17,44 @@ public class ProductVO {
 	private ProductStatus status;
 	private Date createdDate;
 	private Date modifyDate;
-	private String primaryVendor;
-	private String secondaryVendor;
+    private long primaryVendor;
+	private long secondaryVendor;
+	//private VendorVO primaryVenderVO;
+	//private VendorVO secondaryVendorVO;
+
+	
+//	public VendorVO getPrimaryVenderVO() {
+//		return primaryVenderVO;
+//	}
+//
+//	public void setPrimaryVenderVO(VendorVO primaryVenderVO) {
+//		this.primaryVenderVO = primaryVenderVO;
+//	}
+//
+//	public VendorVO getSecondaryVendorVO() {
+//		return secondaryVendorVO;
+//	}
+//
+//	public void setSecondaryVendorVO(VendorVO secondaryVendorVO) {
+//		this.secondaryVendorVO = secondaryVendorVO;
+//	}
+
+	public long getPrimaryVendor() {
+		return primaryVendor;
+	}
+
+	public void setPrimaryVendor(long primaryVendor) {
+		this.primaryVendor = primaryVendor;
+	}
+
+	public long getSecondaryVendor() {
+		return secondaryVendor;
+	}
+
+	public void setSecondaryVendor(long secondaryVendor) {
+		this.secondaryVendor = secondaryVendor;
+	}
+
 
 	public long getId() {
 		return id;
@@ -91,21 +128,21 @@ public class ProductVO {
 		this.modifyDate = modifyDate;
 	}
 
-	public String getPrimaryVendor() {
-		return primaryVendor;
-	}
-
-	public void setPrimaryVendor(String primaryVendor) {
-		this.primaryVendor = primaryVendor;
-	}
-
-	public String getSecondaryVendor() {
-		return secondaryVendor;
-	}
-
-	public void setSecondaryVendor(String secondaryVendor) {
-		this.secondaryVendor = secondaryVendor;
-	}
+	// public String getPrimaryVendor() {
+	// return primaryVendor;
+	// }
+	//
+	// public void setPrimaryVendor(String primaryVendor) {
+	// this.primaryVendor = primaryVendor;
+	// }
+	//
+	// public String getSecondaryVendor() {
+	// return secondaryVendor;
+	// }
+	//
+	// public void setSecondaryVendor(String secondaryVendor) {
+	// this.secondaryVendor = secondaryVendor;
+	// }
 
 	public ProductStatus getStatus() {
 		return status;
@@ -120,8 +157,7 @@ public class ProductVO {
 		return "ProductVO [id=" + id + ", productName=" + productName + ", description=" + description + ", code="
 				+ code + ", currentQuantity=" + currentQuantity + ", orderQuantity=" + orderQuantity
 				+ ", thresholdQuantity=" + thresholdQuantity + ", satatus=" + status + ", createdDate=" + createdDate
-				+ ", modifyDate=" + modifyDate + ", primaryVendor=" + primaryVendor + ", secondaryVendor="
-				+ secondaryVendor + "]";
+				+ ", modifyDate=" + modifyDate + ", primaryVendor=" + ", secondaryVendor=" + "]";
 	}
 
 }
